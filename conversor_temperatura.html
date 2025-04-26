@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termômetro Interativo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            margin-top: 20px;
+            color: #333;
+        }
+
+        .termometro-container {
+            margin: 20px auto;
+            width: 100px;
+            height: 300px;
+            background: #e0e0e0;
+            border-radius: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .termometro-nivel {
+            width: 100%;
+            height: 0;
+            background: linear-gradient(to top, red, orange);
+            position: absolute;
+            bottom: 0;
+            transition: height 0.5s ease-in-out;
+        }
+
+        .input-container {
+            margin: 20px 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .resultado {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Termômetro Interativo</h1>
+    <div class="termometro-container">
+        <div id="nivel" class="termometro-nivel"></div>
+    </div>
+    <div class="input-container">
+        <label for="temperatura">Digite a temperatura (°C):</label>
+        <input type="number" id="temperatura" placeholder="Ex.: 25">
+        <button onclick="atualizarTermometro()">Atualizar</button>
+    </div>
+    <div class="resultado" id="resultado"></div>
+
+    <script>
+        function atualizarTermometro() {
+            // Pega a temperatura digitada
+            const temperatura = parseFloat(document.getElementById("temperatura").value);
+            const nivel = document.getElementById("nivel");
+            const resultado = document.getElementById("resultado");
+
+            // Verifica se o valor é válido
+            if (isNaN(temperatura)) {
+                resultado.textContent = "Por favor, insira uma temperatura válida.";
+                return;
+            }
+
+            // Define o nível do termômetro com base na temperatura
+            let altura = Math.min(Math.max((temperatura + 30) / 80 * 100, 0), 100); // Normaliza a altura entre 0 e 100%
+            nivel.style.height = altura + "%";
+
+            // Exibe a temperatura em Celsius e Fahrenheit
+            const fahrenheit = (temperatura * 9/5) + 32;
+            resultado.textContent = `${temperatura.toFixed(2)}°C = ${fahrenheit.toFixed(2)}°F`;
+        }
+    </script>
+</body>
+</html>
